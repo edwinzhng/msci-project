@@ -6,6 +6,7 @@ API_URL = "https://www.alphavantage.co/query"
 API_KEY = "N650W61IMJKOKG4L"
 
 def query(symbol, function="TIME_SERIES_DAILY", interval="60min", outputsize="full"):
+    print("Fetching data for {}...".format(symbol))
     params = {
         "function" : function,
         "symbol" : symbol,
