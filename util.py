@@ -1,31 +1,30 @@
 import math
+from datetime import datetime
 
 import numpy as np
 
-import api
+import pandas_datareader as pdr
+
+
+# queries yahoo finance for market data of provided stock
+def query(symbol):
+    print("Fetching data for {}...".format(symbol))
+    response = pdr.get_data_yahoo(symbol, start=datetime(2018, 6, 1), end=datetime(2019, 6, 1),interval='m')
+    returns = response["Close"].pct_change().dropna()
+    return returns.values
 
 
 # retrieves market data for two provided stocks as an array
-def get_stocks(stock_1_symbol, stock_2_symbol):
-    stock_1 = api.get_time_series(stock_1_symbol)
-    stock_2 = api.get_time_series(stock_2_symbol)
+def get_stock_returns(stock_1_symbol, stock_2_symbol):
+    stock_1 = query(stock_1_symbol)
+    stock_2 = query(stock_2_symbol)
     return stock_1, stock_2
-
-
-# returns an array of stock returns
-def get_returns(stock):
-    returns = []
-    prev_price = stock[0]
-    for price in stock[1:]:
-        returns.append((price / prev_price) - 1)
-        prev_price = price
-    return returns
 
 
 # finds expected return of a stock portfolio
 def average_exp_return(stock_1_returns, stock_2_returns, weight_1, weight_2):
-    return np.average(stock_1_returns) * weight_1 + \
-            np.average(stock_1_returns) * weight_2
+    return np.average(stock_1_returns) * weight_1 * 10000 + \
+            np.average(stock_1_returns) * weight_2 * 10000
 
 
 # calculates variance of a 2-stock portfolio

@@ -2,8 +2,7 @@ import math
 
 import numpy as np
 
-from util import (average_exp_return, get_returns, get_stocks,
-                  portfolio_variance)
+from util import average_exp_return, get_stock_returns, portfolio_variance
 
 
 # finds the portfolio weights with minimum variance using the step size
@@ -30,9 +29,8 @@ def run():
     stock_2_symbol = input("Enter a second stock symbol:   ")
     print("")
 
-    stock_1, stock_2 = get_stocks(stock_1_symbol, stock_2_symbol)
-    stock_1_returns = get_returns(stock_1)
-    stock_2_returns = get_returns(stock_2)
+    stock_1_returns, stock_2_returns = get_stock_returns(stock_1_symbol,
+                                                         stock_2_symbol)
 
     # calculate values
     var, weights = min_variance_stock_weights(stock_1_returns, stock_2_returns)

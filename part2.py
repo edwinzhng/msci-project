@@ -1,9 +1,8 @@
 import math
 
-from util import get_stocks, get_returns
 import numpy as np
-import api
 
+from util import average_exp_return, get_stock_returns
 
 
 # returns the sharpe ratio given the necessary parameters
@@ -49,9 +48,8 @@ def run():
     r_f            = input("Enter a risk free rate (0 - 100): ")
     print("")
 
-    stock_1, stock_2 = get_stocks(stock_1_symbol, stock_2_symbol)
-    stock_1_returns = get_returns(stock_1)
-    stock_2_returns = get_returns(stock_2)
+    stock_1_returns, stock_2_returns = get_stock_returns(stock_1_symbol,
+                                                         stock_2_symbol)
 
     case_1()
     case_2()
