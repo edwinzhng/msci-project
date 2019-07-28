@@ -23,8 +23,8 @@ def get_stock_returns(stock_1_symbol, stock_2_symbol):
 
 # finds expected return of a stock portfolio
 def average_exp_return(stock_1_returns, stock_2_returns, weight_1, weight_2):
-    return np.average(stock_1_returns) * weight_1 * 10000 + \
-            np.average(stock_1_returns) * weight_2 * 10000
+    return np.average(stock_1_returns * 100) * weight_1 + \
+            np.average(stock_1_returns * 100) * weight_2
 
 
 # calculates variance of a 2-stock portfolio
@@ -39,6 +39,7 @@ def portfolio_variance(stock_1_returns, stock_2_returns, weight_1, weight_2):
     return result
 
 
+# calculates standard deviation of a 2-stock portfolio
 def portfolio_std_dev(stock_1_returns, stock_2_returns, weight_1, weight_2):
     var = portfolio_variance(stock_1_returns, stock_2_returns, weight_1, weight_2)
     return math.sqrt(var)

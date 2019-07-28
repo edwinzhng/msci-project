@@ -6,7 +6,7 @@ from util import average_exp_return, get_stock_returns, portfolio_variance
 
 
 # finds the portfolio weights with minimum variance using the step size
-def min_variance_stock_weights(stock_1_returns, stock_2_returns, step=0.001):
+def min_variance_stock_weights(stock_1_returns, stock_2_returns, step=0.025):
     min_variance_weights = (0.0, 1.0)
     min_variance = float('inf')
 
@@ -39,13 +39,13 @@ def run():
 
     w_1 = weights[0] * 100
     w_2 = weights[1] * 100
-    std_dev = math.sqrt(var)
+    std_dev = math.sqrt(var) * 100
 
     print("\nResults:")
     print("    MVP proportion {0}: {1:.2f}%".format(stock_1_symbol, w_1))
     print("    MVP proportion {0}: {1:.2f}%".format(stock_2_symbol, w_2))
-    print("    MVP standard deviation: {0:.2f}%".format(std_dev))
-    print("    MVP expected portfolio return: {0:.2f}%".format(exp_return))
+    print("    MVP standard deviation: {0:.4f}%".format(std_dev))
+    print("    MVP expected portfolio return: {0:.4f}%".format(exp_return * 100))
 
 
 if __name__=="__main__":
