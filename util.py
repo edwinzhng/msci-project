@@ -16,26 +16,31 @@ def query(symbol):
 
 # retrieves market data for two provided stocks as an array
 def get_stock_returns(stock_1_symbol, stock_2_symbol):
-    stock_1 = query(stock_1_symbol)
-    stock_2 = query(stock_2_symbol)
-    return stock_1, stock_2
+    stock_1_returns = query(stock_1_symbol)
+    stock_2_returns = query(stock_2_symbol)
+    return stock_1_returns, stock_2_returns
 
+def annual_stock_returns(monthly_1, monthly_2):
+    annual_1 = (1 + monthly_1.mean())**12 - 1
+    annual_2 = (1 + monthly_2.mean())**12 - 1
+    return annual_1, annual_2
 
 # finds expected return of a stock portfolio
 def average_exp_return(stock_1_returns, stock_2_returns, weight_1, weight_2):
-    return np.average(stock_1_returns * 100) * weight_1 + \
-            np.average(stock_1_returns * 100) * weight_2
+    annual_1, annual_2 = annual_stock_returns(stock_1_returns, stock_2_returns)
+    return np.average(annual_1) * weight_1 + \
+            np.average(annual_2) * weight_2
 
 
 # calculates variance of a 2-stock portfolio
 def portfolio_variance(stock_1_returns, stock_2_returns, weight_1, weight_2):
-    var_1 = np.var(stock_1_returns)
-    var_2 = np.var(stock_2_returns)
-    covariance = np.cov(stock_1_returns, stock_2_returns)[0][1]
+    returns_1_annual = (1 + stock_1_returns.mean())**12 - 1
+    returns_2_annual = (1 + stock_2_returns.mean())**12 - 1
+    covariance = np.cov(stock_1_returns, stock_2_returns) * 12
 
-    result = (weight_1 ** 2) * var_1 + \
-              (weight_2 ** 2) * var_2 + \
-              2 * weight_1 * weight_2 * covariance
+    result = (weight_1 ** 2) * covariance[0, 0] + \
+              (weight_2 ** 2) * covariance[1, 1] + \
+              2 * weight_1 * weight_2 * covariance[0, 1]
     return result
 
 

@@ -34,18 +34,18 @@ def run():
 
     # calculate values
     var, weights = min_variance_stock_weights(stock_1_returns, stock_2_returns)
-    exp_return = average_exp_return(stock_1_returns, stock_2_returns,
-                                         weights[0], weights[1])
 
-    w_1 = weights[0] * 100
-    w_2 = weights[1] * 100
-    std_dev = math.sqrt(var) * 100
+    w_1 = weights[0] 
+    w_2 = weights[1]
+    std_dev = math.sqrt(var)
+
+    exp_return = average_exp_return(stock_1_returns, stock_2_returns, w_1, w_2)
 
     print("\nResults:")
-    print("    MVP proportion {0}: {1:.2f}%".format(stock_1_symbol, w_1))
-    print("    MVP proportion {0}: {1:.2f}%".format(stock_2_symbol, w_2))
-    print("    MVP standard deviation: {0:.4f}%".format(std_dev))
+    print("    MVP proportion {0}: {1:.2f}%".format(stock_1_symbol, w_1 * 100))
+    print("    MVP proportion {0}: {1:.2f}%".format(stock_2_symbol, w_2 * 100))
     print("    MVP expected portfolio return: {0:.4f}%".format(exp_return * 100))
+    print("    MVP standard deviation: {0:.4f}%".format(std_dev * 100))
 
 
 if __name__=="__main__":
