@@ -1,20 +1,21 @@
-import math
-
 import numpy as np
 
-from util import average_exp_return, get_stock_returns, portfolio_variance
+from util import average_exp_return, get_stocks, portfolio_variance
 
 
 # finds the portfolio weights with minimum variance using the step size
-def min_variance_stock_weights(stock_1_returns, stock_2_returns, step=0.025):
-    min_variance_weights = (0.0, 1.0)
+def min_variance_stock_weights(returns_monthly, returns_annual, step=0.0001):
+    min_variance_weights = [0.0, 1.0]
     min_variance = float('inf')
+
+    covariance = np.array(returns_monthly.cov() * 12)
+    returns = np.array(returns_annual)
 
     weight_1 = 0.0
     while weight_1 <= 1.0:
         weight_2 = 1 - weight_1
-        variance = portfolio_variance(stock_1_returns, stock_2_returns,
-                                      weight_1, weight_2)
+        variance = portfolio_variance(covariance, [weight_1, weight_2])
+
         if variance < min_variance:
             min_variance_weights = (weight_1, weight_2)
             min_variance = variance
@@ -24,29 +25,17 @@ def min_variance_stock_weights(stock_1_returns, stock_2_returns, step=0.025):
     return min_variance, min_variance_weights
 
 
-def run():
-    stock_1_symbol = input("Enter a stock symbol to query: ")
-    stock_2_symbol = input("Enter a second stock symbol:   ")
-    print("")
-
-    stock_1_returns, stock_2_returns = get_stock_returns(stock_1_symbol,
-                                                         stock_2_symbol)
-
+def run(returns_monthly, returns_annual, symbols):
     # calculate values
-    var, weights = min_variance_stock_weights(stock_1_returns, stock_2_returns)
+    var, weights = min_variance_stock_weights(returns_monthly, returns_annual)
+    exp_return = average_exp_return(returns_annual, weights)
 
-    w_1 = weights[0] 
+    w_1 = weights[0]
     w_2 = weights[1]
-    std_dev = math.sqrt(var)
-
-    exp_return = average_exp_return(stock_1_returns, stock_2_returns, w_1, w_2)
+    std_dev = np.sqrt(var)
 
     print("\nResults:")
-    print("    MVP proportion {0}: {1:.2f}%".format(stock_1_symbol, w_1 * 100))
-    print("    MVP proportion {0}: {1:.2f}%".format(stock_2_symbol, w_2 * 100))
+    print("    MVP proportion {0}: {1:.2f}%".format(symbols[0], w_1 * 100))
+    print("    MVP proportion {0}: {1:.2f}%".format(symbols[1], w_2 * 100))
     print("    MVP expected portfolio return: {0:.4f}%".format(exp_return * 100))
     print("    MVP standard deviation: {0:.4f}%".format(std_dev * 100))
-
-
-if __name__=="__main__":
-    run()
