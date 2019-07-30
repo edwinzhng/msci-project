@@ -11,10 +11,10 @@ def get_stocks(symbols):
 
     response = pdr.get_data_yahoo(symbols,
                                   start=datetime(2018, 6, 1),
-                                  end=datetime(2019, 6, 1),
+                                  end=datetime(2019, 6, 3),
                                   interval='m')
 
-    returns_monthly = response["Adj Close"].pct_change().dropna()
+    returns_monthly = response["Close"].pct_change().dropna()
     returns_annual = (1 + returns_monthly.mean()) ** 12 - 1
     return returns_monthly, returns_annual
 

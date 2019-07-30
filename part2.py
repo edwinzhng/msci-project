@@ -9,16 +9,14 @@ def max_sharpe_ratio_weights(returns_monthly, returns_annual, step=0.0001):
     max_sr_weights = [0.0, 1.0]
     max_sr = float('-inf')
 
+    covariance = np.array(returns_monthly.cov() * 12)
+    returns = np.array(returns_annual)
+
     weight_1 = 0.0
     while weight_1 <= 1.0:
         weight_2 = 1 - weight_1
-
-        covariance = np.array(returns_monthly.cov() * 12)
-        returns = np.array(returns_annual)
-
         expected = average_exp_return(returns, [weight_1, weight_2])
         variance = portfolio_variance(covariance, [weight_1, weight_2])
-
         sr = sharpe_ratio(expected, np.sqrt(variance))
 
         if sr > max_sr:
