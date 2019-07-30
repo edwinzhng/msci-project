@@ -27,16 +27,19 @@ def max_sharpe_ratio_weights(returns_monthly, returns_annual, step=0.0001):
 
     return max_sr, max_sr_weights
 
+
 # calculates return based on portfolio and risk free weights
 def risk_free_market_return(returns_annual, port_weights, rf_weights, r_f = 0.02):
     exp_return = average_exp_return(np.array(returns_annual), port_weights)
     return exp_return * rf_weights[0] + r_f * rf_weights[1]
+
 
 # calculates standard deviation based on portfolio and risk free weights
 def risk_free_market_std_dev(returns_monthly, weights, portfolio_weight):
     covariance = np.array(returns_monthly.cov() * 12)
     variance = portfolio_variance(covariance, weights)
     return np.sqrt(portfolio_weight ** 2 * variance)
+
 
 # case 1 calculations
 def case_1(returns_monthly, returns_annual, symbols):
@@ -59,6 +62,7 @@ def case_1(returns_monthly, returns_annual, symbols):
     print("    Market portfolio standard deviation: {0:.2f}%".format(std_dev * 100))
 
     return weights
+
 
 # case 2 calculations
 def case_2(returns_monthly, returns_annual, weights):
