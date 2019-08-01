@@ -1,4 +1,6 @@
+import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
 from util import (average_exp_return, get_stocks, portfolio_variance,
                   sharpe_ratio)
@@ -88,7 +90,36 @@ def case_3(returns_monthly, returns_annual, weights):
     print("    Portfolio standard deviation: {0:.2f}%".format(std_dev * 100))
 
 
+# plot efficient frontier
+def efficient_frontier(returns_monthly, returns_annual):
+    returns = np.array(returns_annual)
+    covar = np.array(returns_monthly.cov() * 12)
+
+    weights_0 = np.array(list(range(0,51)))/50
+    weights   = np.array([weights_0, 1 - weights_0]).T
+
+    port_returns = [w[0] * returns[0] + w[1] * returns[1] for w in weights]
+    port_vars    = [w[0]**2 * covar[0,0] + \
+                    w[1]**2 * covar[1,1] + \
+                    2 * w[0] * w[1] * covar[0,1] for w in weights]
+    port_sds     = [np.sqrt(v) for v in port_vars]
+    port_SRs     = [sharpe_ratio(average_exp_return(returns_annual, w),
+                                 portfolio_variance(covar, w)) for w in weights]
+
+    df = pd.DataFrame([port_returns, port_sds, port_SRs]).transpose()
+    df.columns=['Returns', 'Volatility', 'Sharpe Ratio']
+    
+    plt.style.use('seaborn-deep')
+    df.plot.scatter(x='Volatility', y='Returns', c='Sharpe Ratio',
+                    cmap='RdYlGn', edgecolors='black', figsize=(6, 6), grid=True)
+    plt.xlabel('Volatility (Std. Deviation)')
+    plt.ylabel('Expected Returns')
+    plt.title('Efficient Frontier')
+    plt.show()
+
+
 def run(returns_monthly, returns_annual, symbols):
     weights = case_1(returns_monthly, returns_annual, symbols)
     case_2(returns_monthly, returns_annual, weights)
     case_3(returns_monthly, returns_annual, weights)
+    efficient_frontier(returns_monthly, returns_annual)

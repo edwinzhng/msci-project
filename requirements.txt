@@ -1,2 +1,4 @@
+pandas==0.25.0
 pandas-datareader==0.7.4
+matplotlib==3.0.3
 numpy==1.17.0

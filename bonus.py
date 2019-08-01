@@ -53,24 +53,7 @@ def run():
 
 # iterates through all combinations of stocks to find valid portfolios
 def find_portfolios():
-    test_symbols = [
-        'AON', 'BHPLF', 'MCD', 'KRYAF', 'CERN', 'BSX', 'FE',
-        'PNGAY', 'SRE', 'ESS', 'KMX', 'KYOCY', 'NKE', 'BHP',
-        'WEC', 'MMU', 'LIN', 'ES', 'LLY', 'AFL', 'HOCPY',
-        'TMUS','ERIC', 'PSA', 'ETR', 'MSFT', 'YUM', 'SBAC',
-        'MRK', 'PEP', 'PFE', 'FC', 'WINA', 'GOLD', 'NOC',
-        'LEO', 'WMT', 'MA', 'PEG', 'AZN', 'ECL', 'SHW',
-        'AEP', 'SO', 'IR', 'AXP', 'TMO', 'SLP', 'AIPUY',
-        'ICE', 'ZTS', 'XEL', 'AAIGF', 'CRM', 'DE', 'KMB',
-        'APD', 'PYPL', 'CME', 'MDT', 'PG', 'PIAIF', 'SBUX',
-        'MET', 'NCBS', 'TXN', 'VRSK', 'ADP', 'ORCL', 'FLT',
-        'ABT', 'DTE', 'BAC-PL', 'NVS', 'UNP', 'UNLYF', 'MKC',
-        'LRLCY', 'AME', 'BLL', 'LVMUY', 'HIG', 'LVMHF', 'MSI',
-        'DHR', 'FUJIY', 'V', 'AVGO', 'PGR', 'HKXCY', 'ITUB',
-        'AZO', 'LMT', 'AVB', 'CMS', 'GPDNF', 'DIS', 'EQR',
-        'KO', 'HLT', 'AVIFY', 'KIDS', 'HON', 'HSY', 'CABGY'
-    ]
-
+    test_symbols = ['ITUB', 'SLP', 'LLY', 'PSA', 'WINA', 'KRYAF', 'DIS', 'NVS', 'CME', 'GOLD', 'WMT']
     returns_monthly, returns_annual = get_stocks(test_symbols)
     f = open('portfolios.txt', 'w')
 
@@ -89,4 +72,3 @@ def find_portfolios():
             if std_dev <= 0.05 and exp_return >= 0.1:
                 f.write('Stocks: {}, Std Dev: {}, Return: {}\n'.format(symbols, std_dev, exp_return))
             print('Stocks: {}, Std Dev: {}, Return: {}'.format(symbols, std_dev, exp_return))
-
