@@ -19,6 +19,8 @@ Edwin Zhang, Bob Wei, Ayush Kapur
 * All data uses the 'Close' price although the bonus portfolio also satisfies the constraints with 'Adj Close'
 * If you want to test the project using 'Adj Close', you can modify the `get_stocks()` function in `util.py`
 
+* Screenshots of the output for 3 different portfolios and the bonus are in the `img` folder
+
 Note:
 
 * Sometimes the pandas datareader will throw a `KeyError: 'Date'` when fetching data
