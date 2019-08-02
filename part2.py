@@ -104,7 +104,7 @@ def efficient_frontier(returns_monthly, returns_annual):
                     2 * w[0] * w[1] * covar[0,1] for w in weights]
     port_sds     = [np.sqrt(v) for v in port_vars]
     port_SRs     = [sharpe_ratio(average_exp_return(returns_annual, w),
-                                 portfolio_variance(covar, w)) for w in weights]
+                                 np.sqrt(portfolio_variance(covar, w))) for w in weights]
 
     df = pd.DataFrame([port_returns, port_sds, port_SRs]).transpose()
     df.columns=['Returns', 'Volatility', 'Sharpe Ratio']
